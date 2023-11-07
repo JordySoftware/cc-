@@ -1,0 +1,26 @@
+.tabla-container{
+    padding: 60px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+.title{
+    font-size: 35px;
+    margin-bottom: 20px;
+}
+button{
+    margin-left: 30px;
+}
+.form-inline{
+    width: 100%;
+    padding: 20px;
+    margin: 0 auto;
+    background-color: rgb(240, 240, 240);
+}
+.tabla-container-seguros{
+    width: 1100px;
+}
+.spacer{
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 10px;
+}

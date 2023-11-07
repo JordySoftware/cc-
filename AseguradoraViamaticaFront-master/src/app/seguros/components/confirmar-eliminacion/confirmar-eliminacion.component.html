@@ -1,0 +1,21 @@
+<div mat-dialog-content>
+    <h1>Estas seguro?</h1>
+    <hr>
+    <p>Esta a punto de borrar el seguro: </p>
+    <div class="tabla-container-seguros">
+        <h3 class="title">Datos del seguro</h3>
+    <div>
+        <p>Nombre: {{ data.nombreSeguro }}</p>
+        <p>Codigo: {{ data.codigoSeguro }}</p>
+        <p>Suma Asegurada: {{ data.sumadaAsegurada }}</p>
+        <p>Prima: {{ data.prima }}</p>
+        <hr>
+    </div>
+    </div>
+        <br>
+        Desea continuar?
+    <div>
+        <button mat-button (click)="borrar()" color="warn">Si, borrar</button>
+        <button mat-button (click)="cerrar()">Cancelar</button>
+    </div>
+</div>

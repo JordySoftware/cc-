@@ -1,0 +1,52 @@
+<div class="container">
+    <h2 class="title">
+        {{ (id) ? 'Editar Seguro' : 'Agregar nuevo Seguro' }}
+    </h2>
+    <form autocomplete="off" (ngSubmit)="agregarSeguro()" [formGroup]="seguroForm">
+      <div class="row mt-5">
+        <div class="col">
+          <label for="nombre">Nombre</label>
+          <input id="nombre" name="nombre" type="text" class="form-control" placeholder="Nombre"
+            formControlName="nombre">
+          <div *ngIf="nombreControl.invalid && nombreControl.touched" class="text-danger">
+            <ng-container *ngIf="nombreControl.errors?.['required']">El nombre es obligatorio.</ng-container>
+            <ng-container *ngIf="nombreControl.errors?.['maxLength']">El nombre debe tener como máximo 50 caracteres.</ng-container>
+            <ng-container *ngIf="nombreControl.errors?.['noNumeros']">El nombre no puede contener números.</ng-container>
+          </div>
+        </div>
+        <div class="col">
+          <label for="codigo">Codigo de Seguro</label>
+          <input id="codigo" name="codigo" type="number" class="form-control" placeholder="Codigo de Seguro"
+            formControlName="codigo">
+          <div *ngIf="codigoControl.invalid && codigoControl.touched" class="text-danger">
+            El código de seguro es obligatorio.
+          </div>
+        </div>
+      </div>
+      <div class="row mt-5">
+        <div class="col">
+          <label for="suma">Suma Asegurada</label>
+          <input id="suma" name="suma" type="number" class="form-control" placeholder="Suma Asegurada"
+            formControlName="suma">
+          <div *ngIf="sumaControl.invalid && sumaControl.touched" class="text-danger">
+            La suma asegurada es obligatoria.
+          </div>
+        </div>
+        <div class="col">
+          <label for="prima">Prima</label>
+          <input id="prima" name="prima" type="number" class="form-control" placeholder="Prima"
+            formControlName="prima">
+          <div *ngIf="primaControl.invalid && primaControl.touched" class="text-danger">
+            La prima es obligatoria.
+          </div>
+        </div>
+      </div>
+  
+      <div class="row mt-5">
+        <button type="submit" class="btn btn-success" [disabled]="!seguroForm.valid">
+            {{ (id) ? 'Editar Seguro' : 'Agregar nuevo Seguro' }}
+        </button>
+      </div>
+    </form>
+  </div>
+  

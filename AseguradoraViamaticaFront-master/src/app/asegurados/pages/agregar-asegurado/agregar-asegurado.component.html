@@ -1,0 +1,98 @@
+<div mat-dialog-content class="container">
+    <h2>
+        {{ (aseguradoEditar?.id) ? 'Editar Asegurado' : 'Agregar nuevo Asegurado' }}
+    </h2>
+    <form>
+        <div class="row mt-5">
+            <div class="col">
+                <label for="cedula">Cedula</label>
+                <input id="cedula" name="cedula" type="text" class="form-control" placeholder="Cedula"
+                    [(ngModel)]="cedula">
+                <div *ngIf="cedulaError" class="text-danger">Ingrese una cédula válida (solo números y máximo 20
+                    caracteres).
+                </div>
+            </div>
+            <div class="col">
+                <label for="nombres">Nombre y Apellido</label>
+                <input id="nombre" name="nombre" type="text" class="form-control" placeholder="Nombre y Apellidos"
+                    [(ngModel)]="nombre">
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col">
+                <label for="telefono">Telefono</label>
+                <input id="telefono" name="telefono" type="text" class="form-control" placeholder="Teléfono"
+                    [(ngModel)]="telefono" (blur)="validarTelefono()">
+                <div class="row mt-2" *ngIf="telefonoError">
+                    <p class="text-danger">{{ telefonoErrorMessage }}</p>
+                </div>
+            </div>
+            <div class="col">
+                <label for="edad">Edad</label>
+                <input id="edad" name="edad" type="number" class="form-control" placeholder="Edad" [(ngModel)]="edad"
+                    (blur)="validarEdad()">
+                <div class="row mt-2" *ngIf="edadError">
+                    <p class="text-danger">{{ edadErrorMessage }}</p>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row mt-5">
+            <div class="col">
+                <label for="seguros">Seguros</label>
+                <select id="seguros" class="form-select" aria-label="Default select example"
+                    (change)="seleccionarSeguro($event)">
+                    <option selected>Seleccionar Seguro</option>
+                    <option *ngFor="let seguro of seguros" [value]="seguro.id">{{ seguro.nombreSeguro }}</option>
+                </select>
+                <button type="button" class="btn btn-success button-agregar-seguros" [disabled]="!seguroSeleccionado"
+                    (click)="agregarSeguros(seguroSeleccionado!.id)"
+                    (click)="agregarSegurosVisual(seguroSeleccionado!.id)">
+                    Agregar seguro
+                </button>
+                <div class="row mt-2" *ngIf="!seguroSeleccionado">
+                    <p class="text-danger">Debe seleccionar un seguro para poder asociarlo a un asegurado.</p>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-5" *ngIf="segurosVisual.length > 0">
+            <h3>Lista de seguros asociados</h3>
+            <div class="row">
+                <div class="col" *ngFor="let seguro of segurosVisual; let i = index">
+                    <mat-card>
+                        <mat-card-content>
+                            <h4>{{ seguro.nombreSeguro }}</h4>
+                            <p>Código del seguro: {{ seguro.codigoSeguro }}</p>
+                            <p>Suma asegurada: {{ seguro.sumadaAsegurada }}</p>
+                            <p>Prima: {{ seguro.prima }}</p>
+                        </mat-card-content>
+                        <mat-card-actions>
+                            <button mat-icon-button color="warn" (click)="eliminarSeguro(i)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </mat-card-actions>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="row mt-5">
+            <button type="button" class="btn btn-success" [disabled]="segurosVisual.length < 1"
+                (click)="agregarAsegurado()">
+                {{ (aseguradoEditar?.id) ? 'Editar Asegurado' : 'Agregar nuevo Asegurado' }}
+            </button>
+
+        </div>
+
+        <div class="row mt-2" *ngIf="segurosVisual.length <= 0">
+            <p class="text-danger">Debe seleccionar un seguro para poder crear al asegurado.</p>
+        </div>
+
+        <div class="row mt-2" *ngIf="showErrorMessage">
+            <p class="text-danger">Debe completar todos los campos.</p>
+        </div>
+    </form>
+</div>

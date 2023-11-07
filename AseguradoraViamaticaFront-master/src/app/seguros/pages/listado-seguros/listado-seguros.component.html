@@ -1,0 +1,119 @@
+<div class="tabla-container">
+    <div class="spacer">
+        <h2 class="title">Lista de seguros</h2>
+        <button type="button" class="btn btn-success" [routerLink]="['../agregar']">Agregar nuevo Seguro</button>
+    </div>
+    <table mat-table [dataSource]="seguros" class="mat-elevation-z8">
+
+        <ng-container matColumnDef="numero">
+            <th mat-header-cell *matHeaderCellDef>No.</th>
+            <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="nombreSeguro">
+            <th mat-header-cell *matHeaderCellDef>Nombre del Seguro</th>
+            <td mat-cell *matCellDef="let seguro">{{ seguro.nombreSeguro }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="codigoSeguro">
+            <th mat-header-cell *matHeaderCellDef>Código del Seguro</th>
+            <td mat-cell *matCellDef="let seguro">{{ seguro.codigoSeguro }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="sumaAsegurada">
+            <th mat-header-cell *matHeaderCellDef>Suma Asegurada</th>
+            <td mat-cell *matCellDef="let seguro">{{ seguro.sumadaAsegurada | currency }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="prima">
+            <th mat-header-cell *matHeaderCellDef>Prima</th>
+            <td mat-cell *matCellDef="let seguro">{{ seguro.prima | currency }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef>Acciones</th>
+            <td mat-cell *matCellDef="let seguro">
+                <button mat-raised-button color="primary"[routerLink]="['/seguros/editar', seguro.id]">Editar</button>
+                <button mat-raised-button color="warn" (click)="eliminarSeguro(seguro)">Borrar</button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row
+            *matHeaderRowDef="['numero', 'nombreSeguro', 'codigoSeguro', 'sumaAsegurada', 'prima', 'acciones']"></tr>
+        <tr mat-row
+            *matRowDef="let row; columns: ['numero', 'nombreSeguro', 'codigoSeguro', 'sumaAsegurada', 'prima', 'acciones']">
+        </tr>
+    </table>
+
+</div>
+<div class="tabla-container">
+    <h2 class="title">Buscar Asegurados asociados al codigo del seguro: ###</h2>
+    <mat-form-field class="form-inline">
+        <input matInput class="form-control mr-sm-2 mb-4" type="search" placeholder="Buscar por codigo"
+            aria-label="Search" [ngModel]="codigo" (ngModelChange)="codigo = $event" />
+        <button (click)="getAsegurados();" class="btn btn-outline-success my-2 my-sm-0">Buscar</button>
+
+        <mat-option value="" *ngIf="error !== ''">{{ error }}</mat-option>
+
+        <div *ngIf="asegurados.length !== 0">
+            <hr />
+            <div class="tabla-container-seguros">
+                <h2 class="title">Datos del Seguro</h2>
+                <div>
+                    <p>Nombre del Seguro: {{ seguroDetalle[0]?.nombreSeguro }}</p>
+                    <p>Codigo: {{ seguroDetalle[0]?.codigoSeguro }}</p>
+                    <p>Suma Asegurada: {{ seguroDetalle[0]?.sumadaAsegurada | currency}}</p>
+                    <p>Prima: {{ seguroDetalle[0]?.prima | currency}}</p>
+                    <hr />
+                </div>
+            </div>
+            <div class="tabla-container-seguros">
+                <h2 class="title">Lista de asegurados asociados</h2>
+                <table mat-table [dataSource]="asegurados" class="mat-elevation-z8">
+                    <ng-container matColumnDef="numero">
+                        <th mat-header-cell *matHeaderCellDef>No.</th>
+                        <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="cedula">
+                        <th mat-header-cell *matHeaderCellDef>Cédula</th>
+                        <td mat-cell *matCellDef="let asegurado">{{ asegurado.cedula }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="nombre">
+                        <th mat-header-cell *matHeaderCellDef>Nombre</th>
+                        <td mat-cell *matCellDef="let asegurado">{{ asegurado.nombre }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="telefono">
+                        <th mat-header-cell *matHeaderCellDef>Teléfono</th>
+                        <td mat-cell *matCellDef="let asegurado">{{ asegurado.telefono }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="edad">
+                        <th mat-header-cell *matHeaderCellDef>Edad</th>
+                        <td mat-cell *matCellDef="let asegurado">{{ asegurado.edad }}</td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="['numero', 'cedula', 'nombre', 'telefono', 'edad']"></tr>
+                    <tr mat-row *matRowDef="let asegurado; columns: ['numero', 'cedula', 'nombre', 'telefono', 'edad']">
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <mat-option *ngIf="asegurados.length === 0 && error === ''">
+            <hr />
+            <div class="tabla-container-seguros">
+                <h2 class="title">Ingrese un codigo valido</h2>
+            </div>
+        </mat-option>
+        <mat-option *ngIf="error !== '' && asegurados.length === 0">
+            <hr />
+            <div class="tabla-container-seguros">
+                <h2 class="title">{{ error }}</h2>
+            </div>
+        </mat-option>
+    </mat-form-field>
+</div>
